@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order;
+use App\Events\OrderStatusUpdated;
 
 class OrderController extends Controller
 {
@@ -42,6 +43,7 @@ class OrderController extends Controller
         ]);
 
         $order->update($data);
+        broadcast(new OrderStatusUpdated($order))->toOthers();
         return response()->json($order);
     }
 
@@ -60,4 +62,7 @@ class OrderController extends Controller
             'itens' => $order->itens,
         ]);
     }
+
+
+    
 }
