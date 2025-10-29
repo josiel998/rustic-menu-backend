@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Prato;
 use App\Events\PratoCriado;
+use App\Events\PratoUpdated;
 
 class PratoController extends Controller
 {
@@ -53,7 +54,25 @@ public function show(Prato $prato)
      */
     public function update(Request $request, Prato $prato)
     {
-        // (Não precisamos desta função por enquanto)
+        // 1. Valida os dados (mesmas regras do store, mas 'nome' pode ser opcional
+        // se você não quiser forçar a mudança dele toda vez. Usar 'sometimes')
+        $dadosValidados = $request->validate([
+            'nome' => 'sometimes|required|string|max:255',
+            'descricao' => 'sometimes|nullable|string',
+            'preco' => 'sometimes|required|numeric',
+            'category' => 'sometimes|required|string|max:255',
+            'period' => 'sometimes|required|string|in:lunch,dinner',
+            'imagem_url' => 'sometimes|nullable|string',
+        ]);
+
+        // 2. Atualiza o prato no banco
+        $prato->update($dadosValidados);
+
+        // 3. Dispara o evento de update para o WebSocket
+        broadcast(new PratoUpdated($prato))->toOthers();
+
+        // 4. Retorna o prato atualizado
+        return response()->json($prato);
     }
 
     /**

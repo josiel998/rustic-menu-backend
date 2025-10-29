@@ -39,6 +39,7 @@ Route::post('/pratos', [PratoController::class, 'store']);
 
     // Rota para listar pedidos (do Orders.tsx)
     Route::get('/pedidos', [OrderController::class, 'index']);
+    Route::post('/pedidos/reset', [OrderController::class, 'resetOrders']);
 
     // Rota para atualizar status do pedido (do Orders.tsx)
     Route::patch('/pedidos/{order}', [OrderController::class, 'update']);
