@@ -12,14 +12,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('pratos', function (Blueprint $table) {
-            // Adiciona as colunas que faltam DEPOIS da coluna 'nome'
-            
-            $table->text('descricao')->nullable()->after('nome');
-            $table->decimal('preco', 8, 2)->after('descricao');
+     Schema::table('pratos', function (Blueprint $table) {
+            // Adiciona SÓ O QUE FALTA
             $table->string('category')->after('preco');
             $table->string('period')->after('category');
-            $table->string('imagem_url')->nullable()->after('period');
         });
     }
 

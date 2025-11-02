@@ -73,7 +73,7 @@ class OrderController extends Controller
         ]);
 
         $order->update($data);
-        broadcast(new OrderStatusUpdated($order))->toOthers();
+       broadcast(new OrderStatusUpdated($order->id, $order->status))->toOthers();
         return response()->json($order);
     }
 

@@ -17,11 +17,11 @@ return [
     |
     */
 
-    'paths' => ['api/*'], // Restringe o CORS apenas para rotas /api
+    'paths' => ['api/*', 'broadcasting/auth'], // Restringe o CORS apenas para rotas /api
 
     'allowed_methods' => ['*'],
-
-    'allowed_origins' => [env('FRONTEND_URL', 'http://localhost:8081')], // JÁ MODIFICADO PARA VOCÊ
+// 'allowed_origins' => ['*'],
+    'allowed_origins' => ['https://bomsaborr.shop','https://api.bomsaborr.shop', 'http://localhost:443', 'http://localhost:8081'], // JÁ MODIFICADO PARA VOCÊ
 
     'allowed_origins_patterns' => [],
 

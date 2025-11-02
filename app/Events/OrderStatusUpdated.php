@@ -4,39 +4,47 @@ namespace App\Events;
 
 use App\Models\Order;
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast; // Importante!
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;// <<< MUDANÇA
 use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Queue\SerializesModels;
 
-class OrderStatusUpdated implements ShouldBroadcast // Implemente ShouldBroadcast
+class OrderStatusUpdated implements ShouldBroadcast // <<< MUDANÇA
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable, SerializesModels;
 
-    public string $status;
     public int $id;
+    public string $status;
 
     /**
      * Create a new event instance.
      */
-    public function __construct(public Order $order)
+    public function __construct(int $id, string $status) // <<< MUDANÇA
     {
-        // Puxamos os dados que queremos enviar para o frontend
-        $this->status = $order->status;
-        $this->id = $order->id;
+        $this->id = $id;
+        $this->status = $status;
     }
 
     /**
      * Get the channels the event should broadcast on.
-     *
-     * @return array<int, \Illuminate\Broadcasting\Channel>
      */
     public function broadcastOn(): array
     {
-        // Este é o "nome do canal" que o frontend vai ouvir.
-        // Estamos criando um canal público para cada pedido, usando o UUID.
+        // Envia para o canal público do pedido e o canal privado do Admin
         return [
-            new Channel('order.'.$this->order->uuid),
+            new Channel('order.'.$this->id),
+           new PrivateChannel('admin-orders'),
+        ];
+    }
+    
+    /**
+     * Get the data to broadcast.
+     */
+    public function broadcastWith(): array // <<< MUDANÇA
+    {
+        return [
+            'id' => $this->id,
+            'status' => $this->status,
         ];
     }
 }

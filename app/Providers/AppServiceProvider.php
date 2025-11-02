@@ -23,8 +23,8 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191); // <-- ADICIONE ESTA LINHA
           
-    
-        Broadcast::routes();
+   
+     //Broadcast::routes(['middleware' => ['api', 'auth:sanctum']]);
 
         require base_path('routes/channels.php');
     }

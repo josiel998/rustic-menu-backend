@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-      Schema::create('pratos', function (Blueprint $table) {
-    $table->id();
-    $table->string('nome');
-    $table->text('descricao')->nullable();
-    $table->decimal('preco', 8, 2); // Ex: 123456.78
-    $table->string('imagem_url')->nullable(); // Para a foto
-    $table->timestamps(); // (created_at e updated_at)
-});
+  Schema::create('pratos', function (Blueprint $table) {
+          $table->id();
+          $table->string('nome');
+          $table->text('descricao')->nullable();
+          $table->decimal('preco', 8, 2);
+          $table->string('imagem_url')->nullable();
+          $table->timestamps();
+      });
     }
 
     /**
