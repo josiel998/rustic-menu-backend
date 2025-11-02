@@ -73,8 +73,7 @@ class OrderController extends Controller
         ]);
 
         $order->update($data);
-       broadcast(new OrderStatusUpdated($order->id, $order->status))->toOthers();
-        return response()->json($order);
+broadcast(new OrderStatusUpdated($order->id, $order->status, $order->uuid))->toOthers();        return response()->json($order);
     }
 
     public function showPublic(string $uuid)
