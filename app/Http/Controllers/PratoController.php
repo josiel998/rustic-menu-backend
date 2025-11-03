@@ -27,6 +27,7 @@ public function store(Request $request)
             'nome' => 'required|string|max:255',
             'descricao' => 'nullable|string',
             'preco' => 'required|numeric', // Campo 'preco' (Português)
+            'preco_pequeno' => 'nullable|numeric',
             'category' => 'required|string|max:255',
             'period' => 'required|string|in:lunch,dinner',
             // 'imagem_url' => 'nullable|string', // Descomente se precisar
@@ -60,6 +61,7 @@ public function show(Prato $prato)
             'nome' => 'sometimes|required|string|max:255',
             'descricao' => 'sometimes|nullable|string',
             'preco' => 'sometimes|required|numeric',
+            'preco_pequeno' => 'sometimes|nullable|numeric',
             'category' => 'sometimes|required|string|max:255',
             'period' => 'sometimes|required|string|in:lunch,dinner',
             'imagem_url' => 'sometimes|nullable|string',

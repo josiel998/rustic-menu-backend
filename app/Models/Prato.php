@@ -13,7 +13,8 @@ class Prato extends Model
 protected $fillable = [
         'nome',
         'descricao',
-        'preco',      
+        'preco',    
+        'preco_pequeno',  
         'category',   
         'period',     
         'imagem_url', 
