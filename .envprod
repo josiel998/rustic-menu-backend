@@ -1,20 +1,20 @@
-APP_NAME=Laravel
+# APP_NAME=Laravel
 
-# APP_NAME="Bom Sabor"
+APP_NAME="Bom Sabor"
 
-APP_ENV=local
+# APP_ENV=local
 
-# APP_ENV=production
+APP_ENV=production
 APP_KEY=base64:8exQzwY+lGsfZEY/7ty+fB1u9qoKp2s+7RcJFZvqmNA=
 # APP_DEBUG=true
 
 APP_DEBUG=false
 
-APP_URL=http://localhost:8000
+# APP_URL=http://localhost:8000
 
-# APP_URL=https://api.bomsaborr.shop
+APP_URL=https://api.bomsaborr.shop
 
-# SANCTUM_STATEFUL_DOMAINS=localhost,bomsaborr.shop,www.bomsaborr.shop
+SANCTUM_STATEFUL_DOMAINS=localhost,https://bomsaborr.shop,www.bomsaborr.shop
 APP_LOCALE=en
 APP_FALLBACK_LOCALE=en
 APP_FAKER_LOCALE=en_US
@@ -32,25 +32,25 @@ LOG_DEPRECATIONS_CHANNEL=null
 LOG_LEVEL=debug
 
 
-# DB_CONNECTION=mysql
-# DB_HOST=localhost
-# DB_PORT=3306
-# DB_DATABASE=bomsabor_db               
-# DB_USERNAME=bomsabor_user             
-# DB_PASSWORD='P@9mZ!e7R#xT4qW2'
-
 DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
+DB_HOST=localhost
 DB_PORT=3306
-DB_DATABASE=bom_sabor
-DB_USERNAME=root
-DB_PASSWORD=
+DB_DATABASE=bomsabor_db               
+DB_USERNAME=bomsabor_user             
+DB_PASSWORD='P@9mZ!e7R#xT4qW2'
+
+# DB_CONNECTION=mysql
+# DB_HOST=127.0.0.1
+# DB_PORT=3306
+# DB_DATABASE=bom_sabor
+# DB_USERNAME=root
+# DB_PASSWORD=
 
 SESSION_DRIVER=database
 SESSION_LIFETIME=120
 SESSION_ENCRYPT=false
 SESSION_PATH=/
-SESSION_DOMAIN=.bomsaborr.shop
+SESSION_DOMAIN=https://bomsaborr.shop
 
 BROADCAST_CONNECTION=reverb
 FILESYSTEM_DISK=local
@@ -83,9 +83,9 @@ AWS_USE_PATH_STYLE_ENDPOINT=false
 
 VITE_APP_NAME="${APP_NAME}"
 
-FRONTEND_URL=http://localhost:8080
+# FRONTEND_URL=http://localhost:8080
 
-# FRONTEND_URL=https://bomsaborr.shop
+FRONTEND_URL=https://bomsaborr.shop
 
 
 REVERB_APP_ID=587369

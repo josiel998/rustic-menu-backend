@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\PratoController;
 use App\Models\User;
+use Illuminate\Support\Facades\Broadcast;
 
 
 
@@ -25,6 +26,9 @@ Route::get('/pedidos/status/{uuid}', [OrderController::class, 'showPublic']);
 // --- Rotas Protegidas (Exigem Login) ---
 // O frontend envia 'requiresAuth: true'
 Route::middleware('auth:sanctum')->group(function () {
+
+
+    Broadcast::routes();
 
     // Rota de Logout (do Header.tsx)
     Route::post('/logout', [AuthController::class, 'logout']);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Events\PedidoCriado;
 use App\Models\Order;
 use App\Events\OrderStatusUpdated;
 use Illuminate\Support\Facades\DB;
@@ -37,6 +38,8 @@ class OrderController extends Controller
         ]);
 
         $order = Order::create($data);
+
+        broadcast(new PedidoCriado($order));
         return response()->json($order, 201);
     }
 

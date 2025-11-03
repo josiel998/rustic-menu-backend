@@ -29,7 +29,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
     ->withProviders([ // <-- VERIFIQUE AQUI
         // ...
-      App\Providers\BroadcastServiceProvider::class,// <-- ESTA LINHA
+    //   App\Providers\BroadcastServiceProvider::class,// <-- ESTA LINHA
     ])
 
     
