@@ -42,6 +42,7 @@ Route::middleware('auth:sanctum')->group(function () {
 // Route::apiResource('pratos', PratoController::class);
 
 Route::post('/pratos', [PratoController::class, 'store']);
+Route::post('/pratos/{prato}', [PratoController::class, 'update']);
     Route::put('/pratos/{prato}', [PratoController::class, 'update']);    // Para editar
     Route::patch('/pratos/{prato}', [PratoController::class, 'update']); // Para editar
     Route::delete('/pratos/{prato}', [PratoController::class, 'destroy']);
