@@ -4,14 +4,20 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Broadcast;
+use Illuminate\Support\Facades\Log; 
+use Illuminate\Support\Facades\Auth;
 
 class BroadcastServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
+public function boot(): void
     {
-Broadcast::routes(['middleware' => ['auth:sanctum', 'api'], 'prefix' => 'api']);        require base_path('routes/channels.php');
+       
+
+      
+
+        require base_path('routes/channels.php');
     }
 }

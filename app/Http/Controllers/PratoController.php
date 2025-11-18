@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Prato;
 use App\Events\PratoCriado;
 use App\Events\PratoUpdated;
+use Illuminate\Support\Facades\Storage;
 
 class PratoController extends Controller
 {
@@ -27,10 +28,28 @@ public function store(Request $request)
             'nome' => 'required|string|max:255',
             'descricao' => 'nullable|string',
             'preco' => 'required|numeric', // Campo 'preco' (Português)
+            'preco_pequeno' => 'nullable|numeric',
             'category' => 'required|string|max:255',
             'period' => 'required|string|in:lunch,dinner',
-            // 'imagem_url' => 'nullable|string', // Descomente se precisar
+            'imagem' => 'nullable|image|max:2048', // <-- NOVO: Regra para arquivo
+            'imagem_url' => 'nullable|url', 
         ]);
+
+         $url = $request->input('imagem_url'); // Assume a URL externa por padrão
+
+    // 2. Lida com o Upload de Arquivo
+    if ($request->hasFile('imagem')) {
+        // Salva o arquivo no disco 'public' (storage/app/public/pratos)
+        $path = $request->file('imagem')->store('pratos', 'public');
+        // Gera o URL público (ex: http://localhost:8000/storage/pratos/...)
+        $url = Storage::disk('public')->url($path);
+        
+        // Remove a URL externa, se houver, já que priorizamos o upload
+        unset($dadosValidados['imagem_url']);
+    }
+    
+    // 3. Sobrescreve a URL no array validado com a URL final
+    $dadosValidados['imagem_url'] = $url;
 
     // Cria e salva o prato no banco de dados
 $prato = Prato::create($dadosValidados);
@@ -60,10 +79,35 @@ public function show(Prato $prato)
             'nome' => 'sometimes|required|string|max:255',
             'descricao' => 'sometimes|nullable|string',
             'preco' => 'sometimes|required|numeric',
+            'preco_pequeno' => 'sometimes|nullable|numeric',
             'category' => 'sometimes|required|string|max:255',
             'period' => 'sometimes|required|string|in:lunch,dinner',
+            'imagem' => 'nullable|image|max:2048',
             'imagem_url' => 'sometimes|nullable|string',
         ]);
+
+        $url = $request->input('imagem_url');
+        
+        // 2. Lida com o Novo Upload
+        if ($request->hasFile('imagem')) {
+            // (Opcional: Deletar a imagem antiga)
+            if ($prato->imagem_url && str_contains($prato->imagem_url, '/storage/')) {
+                $oldPath = str_replace(url('storage'), '', $prato->imagem_url);
+                Storage::disk('public')->delete(ltrim($oldPath, '/'));
+            }
+
+            // Salva o novo arquivo
+            $path = $request->file('imagem')->store('pratos', 'public');
+            $url = Storage::disk('public')->url($path);
+            
+            // Remove a URL externa, se houver
+            unset($dadosValidados['imagem_url']);
+        }
+        
+        // 3. Se houve upload OU se o campo imagem_url foi enviado, atualiza.
+        if ($request->hasFile('imagem') || $request->has('imagem_url')) {
+            $dadosValidados['imagem_url'] = $url;
+        }
 
         // 2. Atualiza o prato no banco
         $prato->update($dadosValidados);
@@ -83,6 +127,11 @@ public function show(Prato $prato)
     {
         // O Laravel automaticamente encontra o Prato pelo ID
         // ou retorna 404 se não achar (Route Model Binding)
+
+          if ($prato->imagem_url && str_contains($prato->imagem_url, '/storage/')) {
+            $oldPath = str_replace(url('storage'), '', $prato->imagem_url);
+            Storage::disk('public')->delete(ltrim($oldPath, '/'));
+        }
         
         $prato->delete();
 

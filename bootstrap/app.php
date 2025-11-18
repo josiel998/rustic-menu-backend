@@ -18,9 +18,9 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         
         // Adicione esta linha para o middleware de API do Sanctum
-        // $middleware->api(append: [
-        //     \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-        // ]);
+    //   $middleware->api(append: [
+    //     \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+    // ]);
 
         
 
@@ -29,7 +29,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
     ->withProviders([ // <-- VERIFIQUE AQUI
         // ...
-      App\Providers\BroadcastServiceProvider::class,// <-- ESTA LINHA
+    //   App\Providers\BroadcastServiceProvider::class,// <-- ESTA LINHA
     ])
 
     

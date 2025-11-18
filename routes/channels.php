@@ -1,18 +1,28 @@
 <?php
 
 use Illuminate\Support\Facades\Broadcast;
-use App\Models\User; // <-- 1. ADICIONE ESTE IMPORT (MUITO IMPORTANTE)
+use App\Models\User;
+use Illuminate\Support\Facades\Auth; 
+use Illuminate\Support\Facades\Log; 
+
+
+Broadcast::channel('pratos', function () {
+    return true;
+});
+
+
 
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
+    // ... (este está correto)
     return (int) $user->id === (int) $id;
 });
 
-// --- 2. ADICIONE ESTA FUNÇÃO ---
-// Esta é a regra que faltava. Ela autoriza o canal 'admin-orders'
-// que o seu Orders.tsx está tentando ouvir.
-
 Broadcast::channel('admin-orders', function (User $user) {
-    // Se o $user não for nulo (ou seja, está autenticado via Sanctum),
-    // a conexão será permitida.
-    return $user != null; 
+    // Se um usuário estiver autenticado (via token do Sanctum),
+    // a variável $user não será nula.
+    // Retornar o $user (ou true) permite que ele ouça o canal.
+    return $user;
+
+    // Para mais segurança no futuro, se você tiver um campo 'isAdmin' no User:
+    // return $user && $user->isAdmin;
 });

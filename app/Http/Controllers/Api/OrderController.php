@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Events\PedidoCriado;
 use App\Models\Order;
 use App\Events\OrderStatusUpdated;
 use Illuminate\Support\Facades\DB;
@@ -27,6 +28,9 @@ class OrderController extends Controller
             'cliente' => 'required|string|max:255',
             'telefone' => 'required|string|max:20',    
             'endereco' => 'required|string|max:255',
+            'tipo_entrega' => 'required|string|in:entrega,retirada', 
+            'observacoes' => 'nullable|string',
+            'period' => 'required|string|in:lunch,dinner',
             'meio_pagamento' => 'required|string|max:255',
             'total' => 'required|numeric',
             'status' => 'required|string',
@@ -34,6 +38,8 @@ class OrderController extends Controller
         ]);
 
         $order = Order::create($data);
+
+        broadcast(new PedidoCriado($order));
         return response()->json($order, 201);
     }
 
@@ -73,8 +79,7 @@ class OrderController extends Controller
         ]);
 
         $order->update($data);
-       broadcast(new OrderStatusUpdated($order->id, $order->status))->toOthers();
-        return response()->json($order);
+broadcast(new OrderStatusUpdated($order->id, $order->status, $order->uuid))->toOthers();        return response()->json($order);
     }
 
     public function showPublic(string $uuid)
