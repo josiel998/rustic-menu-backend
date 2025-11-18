@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Broadcast;
-use Illuminate\Support\Facades\Log; // <-- ADICIONE ESTE IMPORT
+use Illuminate\Support\Facades\Log; 
 use Illuminate\Support\Facades\Auth;
 
 class BroadcastServiceProvider extends ServiceProvider
@@ -14,11 +14,7 @@ class BroadcastServiceProvider extends ServiceProvider
      */
 public function boot(): void
     {
-        // --- INÍCIO DA CORREÇÃO ---
-        // Remova 'api' da lista de middlewares.
-        // O 'auth:sanctum' sozinho é o correto para validar o Bearer Token.
-    //    Broadcast::routes([]);
-        // --- FIM DA CORREÇÃO ---
+       
 
       
 

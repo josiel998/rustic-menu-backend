@@ -2,14 +2,14 @@
 
 namespace App\Events;
 
-use App\Models\Order; // <-- Importa o modelo Order
+use App\Models\Order; 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Queue\SerializesModels;
 
-class PedidoCriado implements ShouldBroadcast // <-- Implementa ShouldBroadcast
+class PedidoCriado implements ShouldBroadcast 
 {
     use Dispatchable, SerializesModels;
 
@@ -19,7 +19,7 @@ class PedidoCriado implements ShouldBroadcast // <-- Implementa ShouldBroadcast
     /**
      * Create a new event instance.
      */
-    public function __construct(Order $pedido) // <-- Recebe o objeto Order
+    public function __construct(Order $pedido) 
     {
         $this->pedido = $pedido;
     }
@@ -35,7 +35,7 @@ class PedidoCriado implements ShouldBroadcast // <-- Implementa ShouldBroadcast
         ];
     }
     
-    // --- INÍCIO DA CORREÇÃO ---
+    
     /**
      * O nome do evento que o frontend vai ouvir.
      */
@@ -43,7 +43,7 @@ class PedidoCriado implements ShouldBroadcast // <-- Implementa ShouldBroadcast
     {
         return 'PedidoCriado'; // Isso corresponde ao .listen('.PedidoCriado', ...)
     }
-    // --- FIM DA CORREÇÃO ---
+   
     
     /**
      * Os dados que serão enviados.
