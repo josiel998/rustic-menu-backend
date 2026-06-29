@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => 'reverb',
+    'default' => env('BROADCAST_CONNECTION', 'reverb'),
 
     /*
     |--------------------------------------------------------------------------
@@ -26,15 +26,16 @@ return [
     | to broadcast events to other systems or over WebSockets. Samples of
     | each available type of connection are provided inside this array.
     |
+    |
     */
 
     'connections' => [
 
         'reverb' => [
             'driver' => 'reverb',
-            'key' => env('REVERB_APP_KEY'),
-            'secret' => env('REVERB_APP_SECRET'),
-            'app_id' => env('REVERB_APP_ID'),
+            'key' => env('REVERB_APP_KEY', ''),
+            'secret' => env('REVERB_APP_SECRET', ''),
+            'app_id' => env('REVERB_APP_ID', ''),
             'options' => [
                 'host' => env('REVERB_HOST'),
                  //'port' => env('REVERB_PORT', 443),
